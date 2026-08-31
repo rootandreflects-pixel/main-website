@@ -1,0 +1,30 @@
+{
+  "name": "Root & Reflect Psychotherapy",
+  "short_name": "Root & Reflect",
+  "description": "Professional psychotherapy practice offering compassionate, evidence-based mental health care",
+  "start_url": "/",
+  "display": "browser", 
+  "background_color": "#f8f3e8",
+  "theme_color": "#555435",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-light-32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "/apple-icon.png",
+      "type": "image/png", 
+      "sizes": "180x180"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "lang": "en-US"
+}
