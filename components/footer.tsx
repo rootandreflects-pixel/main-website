@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ArrowUp, Mail, Phone, MapPin, Sparkles, Heart } from 'lucide-react'
+import { CookiePreferencesButton } from '@/components/cookie-preferences-button'
 
 export function Footer() {
   const scrollToTop = () => {
@@ -73,8 +74,8 @@ export function Footer() {
               </li>
               <li className="flex gap-2.5 items-center">
                 <Mail size={16} className="text-[#b37048] shrink-0" />
-                <a href="mailto:hello@rootandreflect.com" className="hover:text-white transition-colors duration-200">
-                  hello@rootandreflect.com
+                <a href="mailto:hello@rootandreflect.ca" className="hover:text-white transition-colors duration-200">
+                  hello@rootandreflect.ca
                 </a>
               </li>
             </ul>
@@ -119,6 +120,12 @@ export function Footer() {
             </Link>
             <Link href="/terms" className="hover:text-white transition-colors duration-200">
               Terms of Service
+            </Link>
+            <CookiePreferencesButton className="hover:text-white transition-colors duration-200">
+              Cookie Preferences
+            </CookiePreferencesButton>
+            <Link href="/admin/login" className="hover:text-white transition-colors duration-200">
+              Admin
             </Link>
             
             {/* Scroll to Top */}

@@ -1,26 +1,28 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [displayChildren, setDisplayChildren] = useState(children)
   const [transitionStage, setTransitionStage] = useState('fade-in')
+  const previousPathname = useRef(pathname)
 
   useEffect(() => {
     // If the path actually changes, run the fade transition
-    if (pathname !== displayChildren.props?.childProp?.segment) {
+    if (pathname !== previousPathname.current) {
       setTransitionStage('fade-out')
       
       const timer = setTimeout(() => {
         setDisplayChildren(children)
         setTransitionStage('fade-in')
+        previousPathname.current = pathname
       }, 250) // Premium fast easing duration
 
       return () => clearTimeout(timer)
     }
-  }, [pathname, children, displayChildren])
+  }, [pathname, children])
 
   return (
     <div

@@ -3,11 +3,12 @@
 import type { Metadata } from 'next'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Clock, Send, Loader2 } from 'lucide-react'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { StructuredData } from '@/components/structured-data'
 import { seoConfig } from '@/lib/seo'
+import { submitContact } from '@/app/actions/contact'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -18,11 +19,27 @@ export default function ContactPage() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In production, this would send to an API
-    setSubmitted(true)
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const result = await submitContact(formData)
+      
+      if (result.success) {
+        setSubmitted(true)
+      } else {
+        setError(result.error || 'Failed to send message. Please try again.')
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const breadcrumbData = {
@@ -178,6 +195,13 @@ export default function ContactPage() {
                     <h2 className="text-2xl font-light text-foreground mb-6">
                       Send Us a Message
                     </h2>
+                    
+                    {error && (
+                      <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg mb-6">
+                        <p className="text-sm text-destructive">{error}</p>
+                      </div>
+                    )}
+                    
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -260,9 +284,17 @@ export default function ContactPage() {
 
                       <button
                         type="submit"
-                        className="w-full py-3.5 bg-primary text-primary-foreground rounded-full hover:bg-primary/95 active:scale-95 transition-all text-base font-medium shadow-md shadow-primary/10"
+                        disabled={isSubmitting}
+                        className="w-full py-3.5 bg-primary text-primary-foreground rounded-full hover:bg-primary/95 active:scale-95 transition-all text-base font-medium shadow-md shadow-primary/10 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
                       >
-                        Send Message
+                        {isSubmitting ? (
+                          <span className="inline-flex items-center gap-2">
+                            <Loader2 size={18} className="animate-spin" />
+                            Sending...
+                          </span>
+                        ) : (
+                          'Send Message'
+                        )}
                       </button>
                     </form>
                   </>

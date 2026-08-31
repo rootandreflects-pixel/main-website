@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
 import { SmoothScroll } from '@/components/smooth-scroll'
 import { PageTransition } from '@/components/page-transition'
 import { StructuredData } from '@/components/structured-data'
+import { CookieConsentProvider } from '@/components/cookie-consent-provider'
+import { CookieConsentModal } from '@/components/cookie-consent-modal'
+import { AnalyticsWrapper } from '@/components/analytics-wrapper'
 import { seoConfig } from '@/lib/seo'
 import './globals.css'
 
@@ -95,9 +97,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.svg', type: 'image/svg+xml' },
       { url: '/icon-light-32x32.png', sizes: '32x32', type: 'image/png' }
     ],
+    shortcut: '/favicon.ico',
     apple: '/apple-icon.png',
     other: [
       {
@@ -124,12 +128,15 @@ export default function RootLayout({
         <StructuredData type="website" />
       </head>
       <body className={`${cormorant.variable} ${inter.variable} font-serif antialiased`}>
-        <SmoothScroll>
-          <PageTransition>
-            {children}
-          </PageTransition>
-        </SmoothScroll>
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <CookieConsentProvider>
+          <SmoothScroll>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </SmoothScroll>
+          <AnalyticsWrapper />
+          <CookieConsentModal />
+        </CookieConsentProvider>
       </body>
     </html>
   )

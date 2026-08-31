@@ -43,7 +43,7 @@ export interface SEOConfig {
 
 // TODO: Replace placeholder values with actual business information
 export const seoConfig: SEOConfig = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://rootandreflect.com',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://rootandreflect.ca',
   siteName: 'Root & Reflect',
   siteDescription: 'Root & Reflect Psychotherapy offers compassionate, evidence-based therapy services to help you navigate life\'s challenges and foster personal growth.',
   defaultImage: '/placeholder-logo.svg',
@@ -55,7 +55,7 @@ export const seoConfig: SEOConfig = {
     
     // PLACEHOLDER - Replace with actual business contact information
     phone: '(555) 123-4567',
-    email: 'hello@rootandreflect.com',
+    email: 'hello@rootandreflect.ca',
     address: {
       street: '123 Healing Lane, Suite 200',
       city: 'Wellness City', 

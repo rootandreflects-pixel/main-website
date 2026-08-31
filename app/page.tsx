@@ -7,7 +7,7 @@ import { StructuredData } from '@/components/structured-data'
 import { generatePageMetadata, seoConfig } from '@/lib/seo'
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'Compassionate Psychotherapy & Mental Health Care',
+  title: 'Root & Reflect',
   description: 'Root & Reflect offers professional psychotherapy services including individual therapy, couples counseling, family therapy, and trauma-informed care. Begin your healing journey in a safe, supportive environment.',
   path: ''
 })

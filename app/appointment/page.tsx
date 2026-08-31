@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Calendar, Clock, User, ArrowRight, CheckCircle } from 'lucide-react'
+import { Calendar, Clock, User, ArrowRight, CheckCircle, Loader2 } from 'lucide-react'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { StructuredData } from '@/components/structured-data'
+import { submitAppointment } from '@/app/actions/appointment'
 
 const therapists = [
   { id: '1', name: 'Dr. Sarah Mitchell', specialty: 'Trauma & Anxiety' },
@@ -39,10 +40,27 @@ export default function AppointmentPage() {
     notes: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const result = await submitAppointment(formData)
+      
+      if (result.success) {
+        setSubmitted(true)
+      } else {
+        setError(result.error || 'Failed to submit appointment. Please try again.')
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const canProceed = () => {
@@ -290,6 +308,12 @@ export default function AppointmentPage() {
                   <h2 className="text-2xl font-light text-foreground mb-6">
                     Your information
                   </h2>
+
+                  {error && (
+                    <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                      <p className="text-sm text-destructive">{error}</p>
+                    </div>
+                  )}
                   
                   <div className="flex gap-4 mb-6">
                     <button
@@ -404,11 +428,20 @@ export default function AppointmentPage() {
                 ) : (
                   <button
                     type="submit"
-                    disabled={!canProceed()}
+                    disabled={!canProceed() || isSubmitting}
                     className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/95 active:scale-95 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
                   >
-                    Book Appointment
-                    <ArrowRight size={18} />
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Book Appointment
+                        <ArrowRight size={18} />
+                      </>
+                    )}
                   </button>
                 )}
               </div>

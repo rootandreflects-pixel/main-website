@@ -50,16 +50,7 @@ const nextConfig = {
     ]
   },
 
-  // Redirect trailing slashes for SEO
-  async redirects() {
-    return [
-      {
-        source: '/:path*/',
-        destination: '/:path*',
-        permanent: true,
-      },
-    ]
-  },
+
 
   // Experimental optimizations
   experimental: {
