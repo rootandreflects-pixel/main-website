@@ -33,10 +33,10 @@ export function Navigation() {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-6 px-4 pointer-events-none"
+      className="sticky top-0 left-0 right-0 z-50 flex justify-center pt-6 px-4"
     >
       <nav
-        className={`pointer-events-auto transition-all duration-500 ease-out flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 rounded-full ${
+        className={`transition-all duration-500 ease-out flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 rounded-full ${
           scrolled
             ? 'glass-panel shadow-[0_12px_40px_rgba(6,10,10,0.12)] w-full max-w-3xl sm:max-w-4xl'
             : 'bg-black/20 backdrop-blur-md border border-white/10 w-full max-w-4xl sm:max-w-5xl'
